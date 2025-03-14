@@ -10,7 +10,7 @@ Game plan :
     5. Setting up a NavMesh for intelligent enemy movement.
 ```
 
-## Memebers:
+## Members:
 
   - Nguyễn Thế Lập: Game Developer, optimizing code.
     
