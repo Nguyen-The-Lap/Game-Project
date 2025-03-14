@@ -12,8 +12,8 @@ Game plan :
 
 ## Memebers:
 
-  - Nguyễn Thế Lập: Game developer, optimizing code.
+  - Nguyễn Thế Lập: Game Developer, optimizing code.
     
-  - Lê Bảo Đăng : UI/UX designer, debugger.
-  - Vũ Minh Thành: Model Designer, debugger
-  - Trương Hoàng Ngọc Nhi: Model and Map Designer, code reviews
+  - Lê Bảo Đăng : UI/UX Designer, Debugger.
+  - Vũ Minh Thành: Model Designer, Debugger.
+  - Trương Hoàng Ngọc Nhi: Model and Map Designer, Code reviews.
