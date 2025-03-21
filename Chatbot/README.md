@@ -28,3 +28,7 @@ It imports:
 
 > [!NOTE]
 > The chatbot sometimes generates responses that seem off-topic or inaccurate.
+
+| Date       | Accuracy (%) | Questions |
+|------------|--------------|-----------|
+| 2025-03-20 |      75%        |     4      |
