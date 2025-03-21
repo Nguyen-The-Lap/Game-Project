@@ -12,8 +12,10 @@ Game plan :
 
 ## Members:
 
+  - Nguyễn Võ Chí Dũng: Mentor.
+
   - Nguyễn Thế Lập: Game Developer, optimizing code.
     
   - Lê Bảo Đăng : UI/UX Designer, Debugger.
-  - Vũ Minh Thành: Model Designer, Debugger.
+  - Vũ Minh Thành: Model Designer, Debugger, Operations.
   - Trương Hoàng Ngọc Nhi: Model and Map Designer, Code reviews.
