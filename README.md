@@ -17,5 +17,5 @@ Game plan :
   - Nguyễn Thế Lập: Game Developer, optimizing code.
     
   - Lê Bảo Đăng : UI/UX Designer, Debugger.
-  - Vũ Minh Thành: Model Designer, Debugger, Operations.
+  - Vũ Minh Thành: Game Designer, Debugger, Operations.
   - Trương Hoàng Ngọc Nhi: Model and Map Designer, Code reviews.
