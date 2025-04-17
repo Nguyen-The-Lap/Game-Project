@@ -1,0 +1,142 @@
+using UnityEngine;
+using UnityEngine.AI;
+
+public class AIEnemy : MonoBehaviour
+{
+    public enum EnemyState { Patrol, Chase, Attack, Dead }
+    public EnemyState currentState = EnemyState.Patrol;
+
+    [Header("References")]
+    public Transform[] patrolPoints;
+    public Transform player;
+    private int currentPatrolIndex;
+    private NavMeshAgent agent;
+    private EnemyAnimationController anim;
+
+    [Header("Ranges")]
+    public float detectRange = 15f;
+    public float attackRange = 7f;
+
+    [Header("Combat")]
+    public float attackCooldown = 2f;
+    private float attackTimer;
+
+    [Header("Health")]
+    public int maxHealth = 100;
+    private int currentHealth;
+
+    void Start()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<EnemyAnimationController>();
+        currentHealth = maxHealth;
+        currentPatrolIndex = 0;
+        GoToNextPatrolPoint();
+    }
+
+    void Update()
+    {
+        if (currentState == EnemyState.Dead) return;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        // Cập nhật tốc độ để điều khiển animation (Speed)
+        anim.PlayRun(agent.velocity.magnitude);
+
+        switch (currentState)
+        {
+            case EnemyState.Patrol:
+                Patrol();
+
+                if (distanceToPlayer <= detectRange)
+                    SwitchState(EnemyState.Chase);
+                break;
+
+            case EnemyState.Chase:
+                Chase();
+
+                if (distanceToPlayer <= attackRange)
+                    SwitchState(EnemyState.Attack);
+                else if (distanceToPlayer > detectRange + 3f)
+                    SwitchState(EnemyState.Patrol);
+                break;
+
+            case EnemyState.Attack:
+                Attack();
+
+                if (distanceToPlayer > attackRange)
+                    SwitchState(EnemyState.Chase);
+                break;
+        }
+    }
+
+    void Patrol()
+    {
+        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        {
+            GoToNextPatrolPoint();
+        }
+
+        agent.isStopped = false;
+    }
+
+    void Chase()
+    {
+        agent.SetDestination(player.position);
+        agent.isStopped = false;
+    }
+
+    void Attack()
+    {
+        agent.isStopped = true;
+        anim.PlayAttack();
+
+        attackTimer -= Time.deltaTime;
+        if (attackTimer <= 0f)
+        {
+            attackTimer = attackCooldown;
+        }
+
+        // Quay mặt về phía player
+        Vector3 lookDir = (player.position - transform.position).normalized;
+        lookDir.y = 0;
+        transform.rotation = Quaternion.LookRotation(lookDir);
+    }
+
+    void GoToNextPatrolPoint()
+    {
+        if (patrolPoints.Length == 0) return;
+
+        agent.SetDestination(patrolPoints[currentPatrolIndex].position);
+        currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (currentState == EnemyState.Dead) return;
+
+        currentHealth -= damage;
+        anim.PlayHit();
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        currentState = EnemyState.Dead;
+        agent.isStopped = true;
+        anim.PlayDeath();
+
+        // Optional: Disable collider or shooting here
+        GetComponent<Collider>().enabled = false;
+        this.enabled = false; // Disable AI script
+    }
+
+    void SwitchState(EnemyState newState)
+    {
+        currentState = newState;
+    }
+}
